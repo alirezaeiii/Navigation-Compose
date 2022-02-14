@@ -21,7 +21,7 @@ import com.android.sample.app.ui.common.DetailTitleText
 import com.android.sample.app.viewmodel.SectionViewModel
 
 @Composable
-fun SectionDetailsScreen(
+fun SectionScreen(
     navController: NavHostController,
     viewModel: SectionViewModel = hiltViewModel()
 ) {

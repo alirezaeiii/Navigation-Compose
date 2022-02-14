@@ -3,15 +3,19 @@ package com.android.sample.app.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.navArgument
 import com.android.sample.app.ui.Screens.Companion.LINK
 import com.android.sample.app.ui.theme.ComposeTheme
 import com.android.sample.app.util.AssetParamType
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalAnimationApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -19,8 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Screens.Dashboard.title) {
+                val navController = rememberAnimatedNavController()
+                AnimatedNavHost(navController = navController,
+                    startDestination = Screens.Dashboard.title,
+                    enterTransition = { EnterTransition.None },
+                    exitTransition = { ExitTransition.None },
+                    popEnterTransition = { EnterTransition.None },
+                    popExitTransition = { ExitTransition.None }) {
                     composable(Screens.Dashboard.title) {
                         DashboardScreen(navController)
                     }
@@ -31,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         )
                     ) {
-                        SectionDetailsScreen(navController)
+                        SectionScreen(navController)
                     }
                 }
             }

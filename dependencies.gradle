@@ -24,7 +24,7 @@ ext.versions = [
         // Compose
         compose          : '1.1.0',
         activityCompose  : '1.4.0',
-        accompanist      : '0.20.3',
+        accompanist      : '0.23.0',
 
         // network
         retrofitVersion  : '2.9.0',
