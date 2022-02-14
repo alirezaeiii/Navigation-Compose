@@ -1,0 +1,2 @@
+rootProject.name='Navigation-Compose'
+include ':app'

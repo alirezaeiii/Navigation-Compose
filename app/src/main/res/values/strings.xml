@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SampleCompose</string>
+    <string name="database">sample.db</string>
+    <string name="failed_loading_msg">Something went wrong</string>
+    <string name="failed_network_msg">No internet connection</string>
+    <string name="retry">Retry</string>
+    <string name="label_dashboard">Dashboard</string>
+    <string name="label_section">Section</string>
+    <string name="label_title">Title :</string>
+    <string name="label_description">Description :</string>
+</resources>
