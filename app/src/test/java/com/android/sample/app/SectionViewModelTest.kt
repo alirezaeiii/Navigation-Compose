@@ -2,15 +2,18 @@ package com.android.sample.app
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import com.android.sample.app.database.section.SectionDao
 import com.android.sample.app.domain.Link
 import com.android.sample.app.domain.Section
 import com.android.sample.app.network.ApiService
 import com.android.sample.app.repository.SectionRepository
+import com.android.sample.app.ui.Screens
 import com.android.sample.app.util.ViewState
 import com.android.sample.app.util.isNetworkAvailable
 import com.android.sample.app.viewmodel.SectionViewModel
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -63,7 +66,11 @@ class SectionViewModelTest {
         }
         val repository = SectionRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
-        val viewModel = SectionViewModel(repository, Link("id", "title", "href"))
+        val savedStateHandle = mockk<SavedStateHandle>(relaxed = true)
+        every {
+            savedStateHandle.get<Link>(Screens.LINK)
+        } returns Link("id", "title", "href")
+        val viewModel = SectionViewModel(repository, savedStateHandle)
         assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
 
         testCoroutineRule.resumeDispatcher()
@@ -83,7 +90,11 @@ class SectionViewModelTest {
         }
         val repository = SectionRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
-        val viewModel = SectionViewModel(repository, Link("id", "string", "href"))
+        val savedStateHandle = mockk<SavedStateHandle>(relaxed = true)
+        every {
+            savedStateHandle.get<Link>(Screens.LINK)
+        } returns Link("id", "title", "href")
+        val viewModel = SectionViewModel(repository, savedStateHandle)
         assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
 
         testCoroutineRule.resumeDispatcher()
@@ -106,7 +117,11 @@ class SectionViewModelTest {
         }
         val repository = SectionRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
-        val viewModel = SectionViewModel(repository, Link("id", "title", "href"))
+        val savedStateHandle = mockk<SavedStateHandle>(relaxed = true)
+        every {
+            savedStateHandle.get<Link>(Screens.LINK)
+        } returns Link("id", "title", "href")
+        val viewModel = SectionViewModel(repository, savedStateHandle)
         assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
 
         testCoroutineRule.resumeDispatcher()

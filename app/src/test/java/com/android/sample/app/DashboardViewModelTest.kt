@@ -22,10 +22,8 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import java.lang.RuntimeException
 
 @ExperimentalCoroutinesApi
 class DashboardViewModelTest {
