@@ -5,7 +5,7 @@ import androidx.navigation.NavType
 import com.android.sample.app.domain.Link
 import com.google.gson.Gson
 
-class AssetParamType : NavType<Link>(isNullableAllowed = false) {
+class LinkNavType : NavType<Link>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): Link? {
         return bundle.getParcelable(key)
     }

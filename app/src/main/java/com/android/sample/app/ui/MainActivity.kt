@@ -9,7 +9,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.navArgument
 import com.android.sample.app.ui.Screens.Companion.LINK
 import com.android.sample.app.ui.theme.ComposeTheme
-import com.android.sample.app.util.AssetParamType
+import com.android.sample.app.util.LinkNavType
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     composable(
                         Screens.Section.title, arguments = listOf(
                             navArgument(LINK) {
-                                type = AssetParamType()
+                                type = LinkNavType()
                             }
                         )
                     ) {
