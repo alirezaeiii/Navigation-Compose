@@ -6,7 +6,6 @@ import com.android.sample.app.util.ViewState
 import com.android.sample.app.util.isNetworkAvailable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
@@ -26,10 +25,14 @@ abstract class BaseRepository<T>(
         query(id)?.let {
             // ****** STEP 1: VIEW CACHE ******
             emit(ViewState.Success(it))
-            // ****** STEP 2: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
-            refresh(url)
-            // ****** STEP 3: VIEW CACHE ******
-            emit(ViewState.Success(query(id)))
+            try {
+                // ****** STEP 2: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
+                refresh(url)
+                // ****** STEP 3: VIEW CACHE ******
+                emit(ViewState.Success(query(id)))
+            } catch (t: Throwable) {
+                Timber.e(t)
+            }
         } ?: run {
             if (context.isNetworkAvailable()) {
                 try {
@@ -45,7 +48,6 @@ abstract class BaseRepository<T>(
             }
         }
     }.flowOn(ioDispatcher)
-        .catch { Timber.e(it) }
 
     private suspend fun refresh(url: String?) {
         saveFetchResult(fetch(url))
