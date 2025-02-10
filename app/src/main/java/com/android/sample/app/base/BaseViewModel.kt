@@ -2,7 +2,7 @@ package com.android.sample.app.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.sample.app.util.ViewState
+import com.android.sample.app.util.Async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,8 +15,8 @@ open class BaseViewModel<T>(
     private val linkUrl: String? = null
 ) : ViewModel() {
 
-    private val _stateFlow = MutableStateFlow<ViewState<T?>>(ViewState.Loading)
-    val stateFlow: StateFlow<ViewState<T?>>
+    private val _stateFlow = MutableStateFlow<Async<T?>>(Async.Loading)
+    val stateFlow: StateFlow<Async<T?>>
         get() = _stateFlow
 
     private val _isRefreshing = MutableStateFlow(false)

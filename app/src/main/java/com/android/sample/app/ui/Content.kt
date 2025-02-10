@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import com.android.sample.app.base.BaseViewModel
 import com.android.sample.app.ui.common.ErrorScreen
 import com.android.sample.app.ui.common.ProgressScreen
-import com.android.sample.app.util.ViewState
+import com.android.sample.app.util.Async
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -16,8 +16,8 @@ fun <T> Content(
     SuccessScreen: @Composable() (t: T) -> Unit
 ) {
     when (val viewState = viewModel.stateFlow.collectAsState().value) {
-        is ViewState.Loading -> ProgressScreen()
-        is ViewState.Success -> {
+        is Async.Loading -> ProgressScreen()
+        is Async.Success -> {
             val isRefreshing by viewModel.isRefreshing.collectAsState()
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
@@ -26,7 +26,7 @@ fun <T> Content(
                 viewState.data?.let { SuccessScreen(t = it) }
             }
         }
-        is ViewState.Error ->
+        is Async.Error ->
             ErrorScreen(message = viewState.message, refresh = viewModel::refresh)
     }
 }

@@ -1,15 +1,15 @@
-package com.android.sample.app
+package com.android.sample.app.viewmodel
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.android.sample.app.TestCoroutineRule
 import com.android.sample.app.database.dashboard.DashboardDao
 import com.android.sample.app.domain.Dashboard
 import com.android.sample.app.domain.Links
 import com.android.sample.app.network.ApiService
 import com.android.sample.app.repository.DashboardRepository
-import com.android.sample.app.util.ViewState
+import com.android.sample.app.util.Async
 import com.android.sample.app.util.isNetworkAvailable
-import com.android.sample.app.viewmodel.DashboardViewModel
 import io.mockk.every
 import io.mockk.mockkStatic
 import kotlinx.coroutines.Dispatchers
@@ -61,10 +61,10 @@ class DashboardViewModelTest {
         val repository = DashboardRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
         val viewModel = DashboardViewModel(repository)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Success(null)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Success(null)))
     }
 
     @Test
@@ -81,10 +81,10 @@ class DashboardViewModelTest {
         val repository = DashboardRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
         val viewModel = DashboardViewModel(repository)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Error(errorMsg)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Error(errorMsg)))
     }
 
     @Test
@@ -98,9 +98,9 @@ class DashboardViewModelTest {
         val repository = DashboardRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
         val viewModel = DashboardViewModel(repository)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Error(errorMsg)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Error(errorMsg)))
     }
 }

@@ -1,17 +1,17 @@
-package com.android.sample.app
+package com.android.sample.app.viewmodel
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.android.sample.app.TestCoroutineRule
 import com.android.sample.app.database.section.SectionDao
 import com.android.sample.app.domain.Link
 import com.android.sample.app.domain.Section
 import com.android.sample.app.network.ApiService
 import com.android.sample.app.repository.SectionRepository
 import com.android.sample.app.ui.Screens
-import com.android.sample.app.util.ViewState
+import com.android.sample.app.util.Async
 import com.android.sample.app.util.isNetworkAvailable
-import com.android.sample.app.viewmodel.SectionViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -71,10 +71,10 @@ class SectionViewModelTest {
             savedStateHandle.get<Link>(Screens.LINK)
         } returns Link("id", "title", "href")
         val viewModel = SectionViewModel(repository, savedStateHandle)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Success(null)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Success(null)))
     }
 
     @Test
@@ -95,10 +95,10 @@ class SectionViewModelTest {
             savedStateHandle.get<Link>(Screens.LINK)
         } returns Link("id", "title", "href")
         val viewModel = SectionViewModel(repository, savedStateHandle)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Error(errorMsg)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Error(errorMsg)))
     }
 
     @Test
@@ -122,9 +122,9 @@ class SectionViewModelTest {
             savedStateHandle.get<Link>(Screens.LINK)
         } returns Link("id", "title", "href")
         val viewModel = SectionViewModel(repository, savedStateHandle)
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Loading))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(ViewState.Error(errorMsg)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Error(errorMsg)))
     }
 }
