@@ -7,6 +7,7 @@ import com.android.sample.app.TestCoroutineRule
 import com.android.sample.app.database.section.SectionDao
 import com.android.sample.app.domain.Link
 import com.android.sample.app.domain.Section
+import com.android.sample.app.domain.asDatabaseModel
 import com.android.sample.app.network.ApiService
 import com.android.sample.app.repository.SectionRepository
 import com.android.sample.app.ui.Screens
@@ -54,15 +55,14 @@ class SectionViewModelTest {
 
     @Test
     fun givenServerResponse200_whenFetch_shouldReturnSuccess() {
+        val section = Section("id", "title", "description")
         mockkStatic("com.android.sample.app.util.ContextExtKt")
         every {
             context.isNetworkAvailable()
         } returns true
         testCoroutineRule.runBlockingTest {
-            `when`(api.getSection(anyString())).thenReturn(
-                Section("id", "title", "description")
-            )
-            `when`(dao.getSection(anyString())).thenReturn(null)
+            `when`(api.getSection(anyString())).thenReturn(section)
+            `when`(dao.getSection(anyString())).thenReturn(section.asDatabaseModel())
         }
         val repository = SectionRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
@@ -74,7 +74,7 @@ class SectionViewModelTest {
         assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(Async.Success(null)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Success(section)))
     }
 
     @Test

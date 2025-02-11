@@ -1,6 +1,6 @@
 package com.android.sample.app.database.dashboard
 
-class DbLink(
+class LinkEntity(
     val id: String,
     val title: String,
     val href: String

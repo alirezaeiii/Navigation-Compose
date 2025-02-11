@@ -6,9 +6,9 @@ import com.google.gson.Gson
 class DbLinkConverter {
 
     @TypeConverter
-    fun jsonToList(value: String): List<DbLink> =
-        Gson().fromJson(value, Array<DbLink>::class.java).toList()
+    fun jsonToList(value: String): List<LinkEntity> =
+        Gson().fromJson(value, Array<LinkEntity>::class.java).toList()
 
     @TypeConverter
-    fun listToJson(value: List<DbLink?>) = Gson().toJson(value.filterNotNull())
+    fun listToJson(value: List<LinkEntity?>) = Gson().toJson(value.filterNotNull())
 }

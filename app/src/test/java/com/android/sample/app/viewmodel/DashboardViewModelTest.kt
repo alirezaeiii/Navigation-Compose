@@ -6,6 +6,7 @@ import com.android.sample.app.TestCoroutineRule
 import com.android.sample.app.database.dashboard.DashboardDao
 import com.android.sample.app.domain.Dashboard
 import com.android.sample.app.domain.Links
+import com.android.sample.app.domain.asDatabaseModel
 import com.android.sample.app.network.ApiService
 import com.android.sample.app.repository.DashboardRepository
 import com.android.sample.app.util.Async
@@ -50,13 +51,14 @@ class DashboardViewModelTest {
 
     @Test
     fun givenServerResponse200_whenFetch_shouldReturnSuccess() {
+        val dashboard = Dashboard(Links(emptyList()))
         mockkStatic("com.android.sample.app.util.ContextExtKt")
         every {
             context.isNetworkAvailable()
         } returns true
         testCoroutineRule.runBlockingTest {
-            `when`(dao.getDashboard()).thenReturn(null)
-            `when`(api.getDashboard()).thenReturn(Dashboard(Links(emptyList())))
+            `when`(dao.getDashboard()).thenReturn(dashboard.asDatabaseModel())
+            `when`(api.getDashboard()).thenReturn(dashboard)
         }
         val repository = DashboardRepository(dao, api, context, Dispatchers.Main)
         testCoroutineRule.pauseDispatcher()
@@ -64,7 +66,7 @@ class DashboardViewModelTest {
         assertThat(viewModel.stateFlow.value, `is`(Async.Loading))
 
         testCoroutineRule.resumeDispatcher()
-        assertThat(viewModel.stateFlow.value, `is`(Async.Success(null)))
+        assertThat(viewModel.stateFlow.value, `is`(Async.Success(dashboard)))
     }
 
     @Test

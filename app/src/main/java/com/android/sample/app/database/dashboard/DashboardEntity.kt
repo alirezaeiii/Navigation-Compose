@@ -8,12 +8,12 @@ import com.android.sample.app.domain.Links
 
 
 @Entity(tableName = "dashboard")
-class DbDashboard(
+class DashboardEntity(
     @PrimaryKey val primaryKey: String = "dashboard",
-    val sections: List<DbLink>
+    val sections: List<LinkEntity>
 )
 
-fun DbDashboard.asDomainModel(): Dashboard {
+fun DashboardEntity.asDomainModel(): Dashboard {
     return Dashboard(
         links = Links(sections = this.sections.map {
             Link(id = it.id, title = it.title, href = it.href)

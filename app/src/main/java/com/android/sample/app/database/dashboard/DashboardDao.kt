@@ -9,8 +9,8 @@ import androidx.room.Query
 interface DashboardDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(dashboard: DbDashboard)
+    suspend fun insert(dashboard: DashboardEntity)
 
     @Query("SELECT * FROM dashboard")
-    suspend fun getDashboard(): DbDashboard?
+    suspend fun getDashboard(): DashboardEntity?
 }

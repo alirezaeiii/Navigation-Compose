@@ -8,8 +8,8 @@ import androidx.room.Query
 @Dao
 interface SectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(data: DbSection)
+    suspend fun insert(data: SectionEntity)
 
     @Query("SELECT * FROM sections WHERE id=:id")
-    suspend fun getSection(id: String): DbSection?
+    suspend fun getSection(id: String): SectionEntity?
 }

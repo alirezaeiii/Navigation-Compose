@@ -5,12 +5,12 @@ import androidx.room.PrimaryKey
 import com.android.sample.app.domain.Section
 
 @Entity(tableName = "sections")
-class DbSection(
+class SectionEntity(
     @PrimaryKey val id: String,
     val title: String,
     val description: String
 )
 
 
-fun DbSection.asDomainModel(): Section =
+fun SectionEntity.asDomainModel(): Section =
     Section(sectionId = this.id, title = this.title, description = this.description)
